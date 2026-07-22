@@ -429,12 +429,32 @@ See [`.env.example`](.env.example) in the repository root. Copy it to `.env` bef
 
 ## Screenshots / Demo
 
-Add screenshots or a short demo video here before submission:
+Demo screenshots are in the [`screenshots/`](screenshots/) folder:
 
-- Swagger UI (`/api/docs/`)  
-- Successful login + product list  
-- Place order + stock decrease  
-- Admin dashboard  
+| File | What it shows |
+|------|----------------|
+| `01-auth-login-customer.png` | Customer JWT login (200 OK) |
+| `02-swagger-ui-overview.png` | Swagger UI (`/api/docs/`) – auth & categories |
+| `03-swagger-orders-products-dashboard.png` | Swagger – dashboard, orders, products |
+| `04-auth-register-customer.png` | Customer registration (201 Created) |
+| `05-create-category.png` | Admin create category |
+| `06-create-product-with-image.png` | Create product with image upload |
+| `07-place-order.png` | Place order (stock transaction) |
+| `08-list-products-stock-after-order.png` | Product list after order (stock reduced 10 → 8) |
+| `09-admin-dashboard.png` | Admin dashboard (products, orders, revenue) |
+| `10-auth-login-customer-tokens.png` | Login response with access/refresh tokens |
+| `11-order-detail.png` | Order detail with line items |
+| `12-cancel-order.png` | Cancel order (status → Cancelled) |
+
+### Preview
+
+![Swagger UI](screenshots/02-swagger-ui-overview.png)
+
+![Place Order](screenshots/07-place-order.png)
+
+![Admin Dashboard](screenshots/09-admin-dashboard.png)
+
+![Stock after order](screenshots/08-list-products-stock-after-order.png)
 
 ## License
 
