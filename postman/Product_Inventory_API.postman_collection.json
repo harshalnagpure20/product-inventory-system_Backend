@@ -980,6 +980,39 @@
       ]
     },
     {
+      "name": "Dashboard",
+      "item": [
+        {
+          "name": "Admin Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/dashboard/admin/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "dashboard", "admin", ""]
+            },
+            "description": "Admin only. Returns total_products, low_stock_products, total_orders, revenue."
+          },
+          "response": []
+        },
+        {
+          "name": "Customer Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/dashboard/customer/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "dashboard", "customer", ""]
+            },
+            "description": "Customer only. Returns total_orders and recent_orders (last 5)."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
       "name": "Docs",
       "item": [
         {

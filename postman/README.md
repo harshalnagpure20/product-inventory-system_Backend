@@ -42,7 +42,9 @@ Use **Auth → Login (Admin)**.
 6. **Orders → Place Order** — `order_id` auto-saves
 7. **Orders → Order History** / Detail / Cancel
 8. **Auth → Login (Admin)** → **Update Order Status**
-9. **Refresh Token** / **Logout** as needed
+9. **Dashboard → Admin Dashboard** (admin token)
+10. **Dashboard → Customer Dashboard** (customer token)
+11. **Refresh Token** / **Logout** as needed
 
 ## Included APIs
 
@@ -52,8 +54,5 @@ Use **Auth → Login (Admin)**.
 | Categories | list, create, detail, update, soft-delete |
 | Products | list (+ search/filter/page/sort), create, detail, update, soft-delete |
 | Orders | place, list, history, detail, update status, cancel |
+| Dashboard | admin stats, customer recent orders |
 | Docs | Swagger UI, OpenAPI schema |
-
-## Not included yet
-
-- Dashboard — not wired in root URLs yet
