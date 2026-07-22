@@ -1,9 +1,16 @@
 from django.urls import path
+from .views import (
+    OrderListCreateAPIView,
+    OrderHistoryAPIView,
+    OrderDetailAPIView,
+    OrderStatusUpdateAPIView,
+    OrderCancelAPIView,
+)
 
 urlpatterns = [
-    # path("", OrderListView.as_view(), name="order_list"),
-    # path("<int:pk>/", OrderDetailView.as_view(), name="order_detail"),
-    # path("create/", OrderCreateView.as_view(), name="order_create"),
-    # path("<int:pk>/update/", OrderUpdateView.as_view(), name="order_update"),
-    # path("<int:pk>/delete/", OrderDeleteView.as_view(), name="order_delete"),
+    path("", OrderListCreateAPIView.as_view(), name="order-list-create"),
+    path("history/", OrderHistoryAPIView.as_view(), name="order-history"),
+    path("<int:pk>/", OrderDetailAPIView.as_view(), name="order-detail"),
+    path("<int:pk>/status/", OrderStatusUpdateAPIView.as_view(), name="order-status"),
+    path("<int:pk>/cancel/", OrderCancelAPIView.as_view(), name="order-cancel"),
 ]
