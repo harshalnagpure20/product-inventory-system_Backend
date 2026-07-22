@@ -1,10 +1,12 @@
 from decimal import Decimal
 from django.db import transaction
 from django.shortcuts import get_object_or_404
+from django.http import HttpResponse
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
+import csv
 
 from products.models import Product
 from products.permission import IsAdmin, IsCustomer
@@ -159,3 +161,71 @@ class OrderCancelAPIView(APIView):
             order.save(update_fields=["status", "updated_at"])
 
         return Response({"message": "Order cancelled", "data": OrderSerializer(order).data})
+
+
+class OrderExportCSVAPIView(APIView):
+    permission_classes = [IsAuthenticated, IsAdmin]
+
+    def get(self, request):
+        orders = (
+            Order.objects.filter(is_deleted=False)
+            .select_related("customer")
+            .prefetch_related("items__product")
+            .order_by("-created_at")
+        )
+
+        response = HttpResponse(content_type="text/csv")
+        response["Content-Disposition"] = 'attachment; filename="orders.csv"'
+
+        writer = csv.writer(response)
+        writer.writerow(
+            [
+                "order_id",
+                "customer_id",
+                "customer_username",
+                "status",
+                "total_price",
+                "item_product_id",
+                "item_product_name",
+                "item_quantity",
+                "item_unit_price",
+                "created_at",
+            ]
+        )
+
+        for order in orders:
+            items = list(order.items.all())
+            if not items:
+                writer.writerow(
+                    [
+                        order.id,
+                        order.customer_id,
+                        order.customer.username if order.customer_id else "",
+                        order.status,
+                        order.total_price,
+                        "",
+                        "",
+                        "",
+                        "",
+                        order.created_at.isoformat() if order.created_at else "",
+                    ]
+                )
+                continue
+
+            for item in items:
+                writer.writerow(
+                    [
+                        order.id,
+                        order.customer_id,
+                        order.customer.username if order.customer_id else "",
+                        order.status,
+                        order.total_price,
+                        item.product_id,
+                        item.product.name if item.product_id else "",
+                        item.quantity,
+                        item.price,
+                        order.created_at.isoformat() if order.created_at else "",
+                    ]
+                )
+
+        return response

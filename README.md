@@ -21,6 +21,7 @@ Django REST Framework API for inventory management, JWT authentication, order pl
 - Admin & customer dashboards  
 - Swagger UI + Postman collection  
 - Docker / Docker Compose support  
+- CSV export for products and orders (admin)  
 
 ## Project Structure
 
@@ -247,6 +248,7 @@ Authorization: Bearer <access_token>
 |--------|----------|--------|
 | GET | `/api/products/` | Authenticated |
 | POST | `/api/products/` | Admin |
+| GET | `/api/products/export/` | Admin (CSV download) |
 | GET | `/api/products/<id>/` | Authenticated |
 | PUT | `/api/products/<id>/` | Admin |
 | DELETE | `/api/products/<id>/` | Admin (soft delete) |
@@ -280,6 +282,7 @@ Image upload: use `multipart/form-data` with an `image` file field.
 | POST | `/api/orders/` | Customer |
 | GET | `/api/orders/` | Customer (own) / Admin (all) |
 | GET | `/api/orders/history/` | Authenticated (own) |
+| GET | `/api/orders/export/` | Admin (CSV download) |
 | GET | `/api/orders/<id>/` | Owner / Admin |
 | PATCH | `/api/orders/<id>/status/` | Admin |
 | POST | `/api/orders/<id>/cancel/` | Owner / Admin |

@@ -3,8 +3,10 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
+from django.http import HttpResponse
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.pagination import PageNumberPagination
+import csv
 
 from .models import Product
 from .serializers import ProductSerializer
@@ -44,6 +46,54 @@ class ProductListCreateAPIView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ProductExportCSVAPIView(APIView):
+    permission_classes = [IsAuthenticated, IsAdmin]
+
+    def get(self, request):
+        products = (
+            Product.objects.filter(is_deleted=False)
+            .select_related("category")
+            .order_by("-created_at")
+        )
+
+        response = HttpResponse(content_type="text/csv")
+        response["Content-Disposition"] = 'attachment; filename="products.csv"'
+
+        writer = csv.writer(response)
+        writer.writerow(
+            [
+                "id",
+                "name",
+                "description",
+                "price",
+                "stock",
+                "category_id",
+                "category_name",
+                "is_active",
+                "created_at",
+                "updated_at",
+            ]
+        )
+
+        for product in products:
+            writer.writerow(
+                [
+                    product.id,
+                    product.name,
+                    product.description or "",
+                    product.price,
+                    product.stock,
+                    product.category_id,
+                    product.category.name if product.category_id else "",
+                    product.is_active,
+                    product.created_at.isoformat() if product.created_at else "",
+                    product.updated_at.isoformat() if product.updated_at else "",
+                ]
+            )
+
+        return response
 
 
 class ProductDetailAPIView(APIView):
